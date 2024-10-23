@@ -50,7 +50,7 @@ class ParquetDataset():
         return sum(f(-(x[1:-1, :] - x[:-2, :])*(x[1:-1] - x[2:])))
     
     def var(self, x):                                      # variance
-        return sum((x ** 2 - np.mean(x))) / (x.shape[0] - 1)
+        return sum((x-np.mean(x, axis=0))** 2 ) / (x.shape[0] - 1)
 
     #TODO sunlight exposure (proxy for outdoor time)
 
