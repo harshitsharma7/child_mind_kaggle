@@ -30,7 +30,6 @@ class ParquetDataset():
             results = list(tqdm(executor.map(lambda fname: self.process_parquet(fname, self.path_to_dir), ids), total=len(ids)))
         
         stats, indexes = zip(*results)
-        print(stats)
         columns = [f"{key}_{value}" for key, (_, values) in self.feature_dict.items() for value in values]
 
         df = pd.DataFrame(stats, columns=columns)
@@ -51,7 +50,7 @@ class ParquetDataset():
         return sum(f(-(x[1:-1, :] - x[:-2, :])*(x[1:-1] - x[2:])))
     
     def var(self, x):                                      # variance
-        return sum((x ** 2)) / (x.shape[0] - 1)
+        return sum((x ** 2 - np.mean(x))) / (x.shape[0] - 1)
 
     #TODO sunlight exposure (proxy for outdoor time)
 
